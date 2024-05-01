@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.2.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.github.msundlana</groupId>
+	<artifactId>warehouse-management-api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Warehouse Management API</name>
+	<description>A Java application to efficiently manages inventory, products, and transactions within a warehouse environment</description>
+	<properties>
+		<java.version>17</java.version>
+		<spring-cloud.version>2023.0.0</spring-cloud.version>
+		<liquibase.version>4.20.0</liquibase.version>
+		<liquibase-hibernate6.version>4.18.0</liquibase-hibernate6.version>
+		<hibernate6.version>6.1.5.Final</hibernate6.version>
+		<javassist.version>3.24.0-GA</javassist.version>
+		<validation-api.version>3.0.2</validation-api.version>
+		<maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+	</properties>
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Spring Boot Starter Actuator to monitor and manage your application
+		- such as application health, metrics, sessions, etc -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+
+		<!--SpringDoc OpenAPI is used together with Swagger_UI API to generate document and UI clients can connect
+		 with it to auto generate services to reduce API contract violation   -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+
+		<!-- Spring Boot Starter Data JPA for data access -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<!-- Spring Boot Starter Validation for Bean Validation with Hibernate validator. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<!--Liquibase used for database migration -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase.ext</groupId>
+			<artifactId>liquibase-hibernate6</artifactId>
+			<version>${liquibase-hibernate6.version}</version>
+		</dependency>
+
+		<!--Zipkin Tracing server used to provides visibility
+		into the latency of the application's service calls. -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
+
+
+		<!-- Resilience4j used for fault tolerance.-->
+		<dependency>
+			<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot3</artifactId>
+			<version>2.1.0</version>
+		</dependency>
+
+		<!--Aspect Object Orientation Programming together with Resilience4j-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!--Spring Boot DevTools to provide fast application restarts, LiveReload, and configurations
+		for enhanced development experience. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+		<!--Provides PostgreSQL Driver to connect to a
+		PostgreSQL database using standard, database independent Java code-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Lombok used to reduce boilerplate code -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!--Modelmapper used for mapping objects from one model to another-->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit Jupiter API for testing -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito for mocking -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>4.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<profiles>
+
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>prod</id>
+			<properties>
+				<activatedProperties>prod</activatedProperties>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>test</id>
+			<properties>
+				<activatedProperties>test</activatedProperties>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>msundlana/${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>4.19.0</version>
+				<configuration>
+					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
+					<verbose>true</verbose>
+					<logging>debug</logging>
+
+
+					<diffChangeLogFile>
+						src/main/resources/db/changelog/changesets/${maven.build.timestamp}_changeset.yaml
+					</diffChangeLogFile>
+					<referenceUrl>
+						hibernate:spring:com.github.msundlana.warehousemanagementapi?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+					</referenceUrl>
+				</configuration>
+
+				<dependencies>
+					<dependency>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-core</artifactId>
+						<version>${liquibase.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.liquibase.ext</groupId>
+						<artifactId>liquibase-hibernate6</artifactId>
+						<version>${liquibase-hibernate6.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-starter-data-jpa</artifactId>
+						<version>3.0.0</version>
+					</dependency>
+
+					<dependency>
+						<groupId>jakarta.validation</groupId>
+						<artifactId>jakarta.validation-api</artifactId>
+						<version>${validation-api.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.javassist</groupId>
+						<artifactId>javassist</artifactId>
+						<version>${javassist.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

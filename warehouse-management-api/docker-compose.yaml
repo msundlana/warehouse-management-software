@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  warehouse-postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: warehouse_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    networks:
+      - warehouse-network
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  warehouse-management:
+    image: msundlana/warehouse-management-api:0.0.1-SNAPSHOT
+    mem_limit: 700m
+    ports:
+      - "8080:8080"
+    networks:
+      - warehouse-network
+    depends_on:
+      - warehouse-postgres
+    environment:
+      MANAGEMENT.ZIPKIN.TRACING.ENDPOINT: http://zipkin-server:9411/api/v2/spans
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    mem_limit: 300m
+    ports:
+      - "9411:9411"
+    networks:
+      - warehouse-network
+    restart: always #Restart if there is a problem starting up
+
+networks:
+  warehouse-network:
+
+volumes:
+  pgdata:

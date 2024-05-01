@@ -1,0 +1,103 @@
+databaseChangeLog:
+- changeSet:
+    id: 1714432883368-1
+    author: merciful.sundlana (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: articlePK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: stock
+            type: INTEGER
+        tableName: article
+- changeSet:
+    id: 1714432883368-2
+    author: merciful.sundlana (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: productPK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: name
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: price
+            type: FLOAT(53)
+        tableName: product
+- changeSet:
+    id: 1714432883368-3
+    author: merciful.sundlana (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: product_articlePK
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: false
+            name: quantity
+            type: INTEGER
+        - column:
+            name: article_id
+            type: BIGINT
+        - column:
+            name: product_id
+            type: BIGINT
+        tableName: product_article
+- changeSet:
+    id: 1714432883368-4
+    author: merciful.sundlana (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: product_id
+        baseTableName: product_article
+        constraintName: FKe4pdacketjir64khchobmo0sn
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: product
+        validate: true
+- changeSet:
+    id: 1714432883368-5
+    author: merciful.sundlana (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: article_id
+        baseTableName: product_article
+        constraintName: FKkj85fmaig1dav0vivnuq46l5u
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: article
+        validate: true
+

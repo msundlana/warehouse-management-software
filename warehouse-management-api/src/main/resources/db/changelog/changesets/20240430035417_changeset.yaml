@@ -1,0 +1,10 @@
+databaseChangeLog:
+- changeSet:
+    id: 1714449263344-1
+    author: merciful.sundlana (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: product_id, article_id
+        constraintName: ProductArticle
+        tableName: product_article
+
