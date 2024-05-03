@@ -58,7 +58,7 @@ public class WarehouseController {
     @DeleteMapping("/products/{productId}/sell")
     public ResponseEntity<String> sellProduct(@PathVariable Long productId) {
         warehouseService.sellProduct(productId);
-        return ResponseEntity.ok("Product sold successfully");
+        return ResponseEntity.ok("Product with id " + productId +"  sold successfully");
     }
 }
 

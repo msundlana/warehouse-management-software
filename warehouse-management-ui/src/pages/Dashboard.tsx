@@ -15,6 +15,7 @@ function Dashboard({
     const [roles,setRoles] = useState(Roles);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [validationError, setValidationError] = useState('');
+    const [message,setMessage] = useState('');
     const [poductInventory,setPoductInventory] = useState(Content);
     const [pageNumber,setPageNumber] = useState(0);
     const [totalPages,setTotalPages] = useState(0);
@@ -45,7 +46,6 @@ function Dashboard({
               }
         })
         .then( (response) => {
-            console.log('response',response);
                 setIsSubmitting(false);
                 let page:PageProductInventoryDTO = response.data;
                     setPoductInventory(page.content?page.content:[]);
@@ -64,29 +64,32 @@ function Dashboard({
         );
     }
 
-    const sellProduct = (productId:number) => {
+    const sellProduct = (productId:number|undefined) => {
         setIsSubmitting(true);
         setValidationError('');
+        setMessage('');
         const warehouseService:WarehouseControllerApi = new WarehouseControllerApi();
-        warehouseService.sellProduct({
-            productId:productId
-        }, {
-            headers:{
-                Authorization: `Bearer ${jwtToken}`
-              }
-        })
-        .then( (response) => {
-            console.log('response',response);
+        if(productId!){
+            warehouseService.sellProduct({
+                productId:productId
+            }, {
+                headers:{
+                    Authorization: `Bearer ${jwtToken}`
+                }
+            })
+            .then( (response) => {
+                    setIsSubmitting(false);
+                    setMessage(response.data);
+                    getProductInventory(jwtToken);
+                    
+            }).catch((error) => {
                 setIsSubmitting(false);
-                getProductInventory(jwtToken);
-                
-        }).catch((error) => {
-            setIsSubmitting(false);
-            if(error.response && error.response.data ){
-                setValidationError(error.response.data.message)
+                if(error.response && error.response.data ){
+                    setValidationError(error.response.data.message)
+                }
             }
+            );
         }
-        );
     }
 
     const logoutAction = () => {
@@ -97,11 +100,11 @@ function Dashboard({
 
     const getProductInventoryRow = poductInventory?.map((product:ProductInventoryDTO)=>{
         return (
-            <tr>
+            <tr key={product.id}>
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.availableStock}</td>
-                <td><button className='btn btn-secondary btn-block' onClick={sellProduct(product.id)}>Sell</button></td>
+                <td><button className='btn btn-secondary btn-block' onClick={()=>sellProduct(product.id)}>Sell</button></td>
             </tr>
         );
     })
@@ -125,6 +128,22 @@ function Dashboard({
                         </div>
                     </nav>
                     <h2 className="text-center mt-5">Welcome, {username}!</h2  >
+                </div>
+            </div>
+            
+            <div className='row justify-content-md-center'>
+                <div className='col-12 text-center'>
+                {
+                         validationError && validationError.length>0 &&
+                        <p className='text-center'>
+                            <small className='text-danger'>{validationError}</small>
+                        </p>
+                }
+                { message.length>0 && 
+                    <p className='text-center'>
+                        <small className='text-success'>{message}</small>
+                    </p>
+                }
                 </div>
             </div>
             <div className='row justify-content-md-center'>
