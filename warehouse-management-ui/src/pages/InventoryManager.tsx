@@ -1,6 +1,5 @@
 import React,{ FormEvent, useEffect, useState } from 'react'
 import { ArticleDTO, JWTResponse, ProductArticleDTO, ProductDTO, WarehouseControllerApi } from '../services/generated/openapi';
-// import axios from 'axios'
 import { useNavigate } from "react-router-dom"
 import Layout from "../components/Layout"
 

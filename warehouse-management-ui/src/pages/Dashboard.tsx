@@ -64,14 +64,12 @@ function Dashboard({
         );
     }
 
-    const sellProduct = (e:FormEvent) => {
-        e.preventDefault();
+    const sellProduct = (productId:number) => {
         setIsSubmitting(true);
         setValidationError('');
-        let id :number= 0;
         const warehouseService:WarehouseControllerApi = new WarehouseControllerApi();
         warehouseService.sellProduct({
-            productId:id
+            productId:productId
         }, {
             headers:{
                 Authorization: `Bearer ${jwtToken}`
@@ -103,7 +101,7 @@ function Dashboard({
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.availableStock}</td>
-                <td><button className='btn btn-secondary btn-block' onClick={(product)=>{sellProduct(product)}}>Sell</button></td>
+                <td><button className='btn btn-secondary btn-block' onClick={sellProduct(product.id)}>Sell</button></td>
             </tr>
         );
     })
